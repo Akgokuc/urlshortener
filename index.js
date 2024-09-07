@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const randomstring = require('randomstring');
-const path = require("path");
 const cors = require('cors');
 const url = require("./url.js");
 
@@ -17,16 +16,13 @@ mongoose.connect(dbUrl).then(()=>{
     console.log('Mongo connected');
 })
 
-app.use('/static', express.static(path.join(__dirname, 'static')));
+
 
 app.use(express.text());
 app.use(express.json());
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-
 app.get('/',(req,res)=>{
-    res.render('index.ejs');
+    res.send("Hello!");
 })
 
 app.post('/send',(req,res)=>{   
