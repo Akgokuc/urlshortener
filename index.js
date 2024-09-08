@@ -1,8 +1,7 @@
-require('dotenv').config();
-
 const express = require("express");
 const mongoose = require("mongoose");
 const randomstring = require('randomstring');
+const path = require("path");
 const cors = require('cors');
 const url = require("./url.js");
 
@@ -11,18 +10,21 @@ const app = express();
 app.use(cors());
 
 
-const dbUrl = process.env.DATABASE_URL;
-mongoose.connect(dbUrl).then(()=>{
+
+mongoose.connect("mongodb://127.0.0.1:27017/urldb").then(()=>{
     console.log('Mongo connected');
 })
 
-
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 app.use(express.text());
 app.use(express.json());
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
 app.get('/',(req,res)=>{
-    res.send("Hello!");
+    res.render('index.ejs');
 })
 
 app.post('/send',(req,res)=>{   
